@@ -1,0 +1,13 @@
+/NOI /PAC /F +
+globals ctdl ctdlmsg neterror doenter doread +
+sysop calllog log version misc xymodem modem +
+msg rooma roomb roomedit archive event +
+routing getdiren libroute floor +
+libroom libtabl libfloor libdep libarch libcryp +
+liblog libtag libmisc libmodem libout +
+libalias libnet libtimer hash postmsg +
+netcall netmain netmisc netrcv nfs +
+door sysdep driver pexec zaploop +
+scandir hothelp private edituser +
+putch io open libdata
+b0badel.exe;

@@ -1,0 +1,5 @@
+/NOI /PAC /F +
+expand libtabl libcryp libdep libdata crashout open putch
+expand.exe
+expand.map;
+

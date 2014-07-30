@@ -1,0 +1,53 @@
+/************************************************************************
+ *                                                                      *
+ *                Copyright 1988 by David L. Parsons                    *
+ *                       All Rights Reserved                            *
+ *                                                                      *
+ *             Permission is granted to use these sources               *
+ *          for non-commercial purposes ONLY.  You may not              *
+ *          include them in whole or in part in any commercial          *
+ *          or shareware software unless you have the express           *
+ *          written consent of David L. Parsons.                        *              *
+ *                                                                      *
+ ************************************************************************
+
+
+    The original CITADEL source code was placed into the public domain in
+January of 1982.  The STadel and STadel-PC source code derived from those
+sources was copyrighted by David L. Parsons in 1988 to protect it from
+exploitation by shareware developers.
+
+    Mr. Parsons visited me in 1990, and at that time gave me his consent to
+distribute my modified STadel sources as part of the free b0badel BBS package
+Both his original source code (BITS.ARC) and the derived b0badel sources are
+available in the System room at Interface BBS (US 707-823-3052).
+
+    The copyright notice above still applies to portions of the code that
+remain unchanged from the STadel product.  The notice below applies to the
+b0badel-specific code distributed as part of the free b0badel BBS package,
+and to the executable b0badel binaries.
+
+
+ ************************************************************************
+ *                                                                      *
+ *               Copyright (c) 1989, 1991 by Robert P. Lee              *
+ *                   Sebastopol, CA, U.S.A. 95473-0846                  *
+ *                          All Rights Reserved                         *
+ *                                                                      *
+ *             Permission is granted to use these files for             *
+ *          non-commercial purposes only.  You may not include          *
+ *          them in whole or in part in any commercial software.        *
+ *                                                                      *
+ *             Use of b0badel source code or binary executables         *
+ *          by military organizations, or by companies holding          *
+ *          contracts with military organizations, is expressly         *
+ *          forbidden.                                                  *     
+ *                                                                      *
+ ************************************************************************
+
+
+    -Robert P. Lee (b0b @ Interface)
+
+
+Last updated $Date::   17 Mar 1991 $ 
+*/

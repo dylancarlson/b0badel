@@ -1,0 +1,174 @@
+# NMAKE Makefile for b0badel
+
+MODEL   =M
+
+# default compiler switches
+
+CFLAGS  =-a -c -m$(MODEL) -b -p
+
+# switches for fully prototyped C:
+
+CPROTO  =-a -c -m$(MODEL) -b -r
+
+CSPEED  =$(CPROTO) -o           #prototyped, optimize for speed
+CSPACE  =$(CPROTO) -o+space     #prototyped, optimize for space
+
+# switches for MASM
+
+AFLAGS  =/Mx /DI8086$(MODEL)
+
+# directories and other macros
+
+S   =..             # where most .c files are
+I   =..\include     # where most .h files are
+
+EX   =$S\externs.h $S\library.h
+CTDL =$I\ctdl.h $I\sysdep.h
+
+# inference rules
+
+{$S\}.c.obj:        # note NMAKE specific syntax
+    ztc $(CFLAGS) $<
+
+.asm.obj:
+    masm $(AFLAGS) $*;
+
+# default target
+
+ALL:        b0badel.exe configur.exe expand.exe
+
+b0badel.exe:    b0badel.lnk     ctdl.obj        doread.obj      \
+                calllog.obj     log.obj         version.obj     \
+                misc.obj        xymodem.obj     modem.obj       \
+                msg.obj         rooma.obj       roomb.obj       \
+                roomedit.obj    floor.obj       libroom.obj     \
+                libtabl.obj     libfloor.obj    ctdlmsg.obj     \
+                libdep.obj      libarch.obj     libcryp.obj     \
+                liblog.obj      libtag.obj      libmisc.obj     \
+                libmodem.obj    event.obj       libout.obj      \
+                libalias.obj    libnet.obj      libtimer.obj    \
+                hash.obj        postmsg.obj     netcall.obj     \
+                netmain.obj     netmisc.obj     netrcv.obj      \
+                door.obj        sysdep.obj      io.obj          \
+                driver.obj      neterror.obj    pexec.obj       \
+                zaploop.obj     archive.obj                     \
+                doenter.obj     sysop.obj       routing.obj     \
+                libroute.obj    getdiren.obj    nfs.obj         \
+                scandir.obj     hothelp.obj     \
+                private.obj     edituser.obj    globals.obj     \
+                open.obj        putch.obj       libdata.obj
+    blink @b0badel.lnk
+
+configur.exe:   configur.lnk    cfg.obj         cfgmisc.obj     \
+                cfgscan.obj     cfgzap.obj      libarch.obj     \
+                libcryp.obj     liblog.obj      hash.obj        \
+                version.obj     libfloor.obj    libroom.obj     \
+                libtabl.obj     libnet.obj      libdep.obj      \
+                crashout.obj    libdata.obj     putch.obj
+    blink @configur.lnk
+
+expand.exe:     expand.obj      libtabl.obj     libcryp.obj     \
+                libdep.obj      crashout.obj    version.obj     \
+                putch.obj       expand.lnk
+    blink @expand.lnk
+
+
+## dependencies for objects made from .c files ##
+
+ARCHIVE.obj:    $(CTDL) $I\protocol.h $(EX) $S\ARCHIVE.C
+    ztc $(CSPACE) $S\$(@B).c
+CALLLOG.obj:    $(CTDL) $I\clock.h $I\audit.h $(EX) $S\CALLLOG.C
+    ztc $(CSPACE) $S\$(@B).c
+CFG.obj:        $(CTDL) $I\ctdlnet.h $I\event.h $I\audit.h $I\poll.h $I\zaploop.h $I\cfg.h $S\CFG.C
+CFGMISC.obj:    $(CTDL) $I\ctdlnet.h $I\event.h $I\audit.h $I\poll.h $I\cfg.h $S\CFGMISC.C
+CFGSCAN.obj:    $(CTDL) $I\ctdlnet.h $I\event.h $I\zaploop.h $S\CFGSCAN.C
+CFGZAP.obj:     $(CTDL) $I\ctdlnet.h $S\CFGZAP.C
+CRASHOUT.obj:   $(CTDL) $(EX) $S\CRASHOUT.C
+    ztc $(CSPACE) $S\$(@B).c
+CTDL.obj:       $(CTDL) $I\event.h $I\audit.h $I\protocol.h $I\door.h $I\poll.h $(EX) $S\CTDL.C
+    ztc $(CFLAGS) $S\$(@B).c
+CTDLMSG.obj:    $(CTDL) $(EX) $I\ctdlnet.h $I\msg.h $I\protocol.h $S\CTDLMSG.C
+    ztc $(CSPACE) $S\$(@B).c
+DOENTER.obj:    $(CTDL) $I\protocol.h $(EX) $S\DOENTER.C
+DOOR.obj:       $(CTDL) $I\door.h $(EX) $S\DOOR.C
+DOREAD.obj:     $(CTDL) $I\dirlist.h $I\protocol.h $I\dateread.h $(EX) $S\DOREAD.C
+DRIVER.obj:     $(CTDL) $(EX) $S\DRIVER.C
+    ztc $(CSPACE) $S\$(@B).c
+EDITUSER.obj:   $(CTDL) $I\event.h $I\protocol.h $I\audit.h $I\door.h $I\poll.h $S\EDITUSER.C
+    ztc $(CSPACE) $S\$(@B).c
+EVENT.obj:   $(CTDL) $(EX) $I\event.h $I\clock.h $S\EVENT.C
+    ztc $(CSPACE) $S\$(@B).c
+EXPAND.obj:     $(CTDL) $S\EXPAND.C
+FLOOR.obj:      $(CTDL) $I\protocol.h $(EX) $S\FLOOR.C
+GETDIREN.obj:   $I\dirlist.h $S\GETDIREN.C
+GLOBALS.obj:    $(CTDL) $S\GLOBALS.C
+    ztc $(CSPACE) $S\$(@B).c
+HASH.obj:       $(CTDL) $S\library.h $S\HASH.C
+    ztc $(CSPEED) $S\$(@B).c
+HOTHELP.obj:    $(CTDL) $(EX) $S\HOTHELP.C
+    ztc $(CSPACE) $S\$(@B).c
+LIBALIAS.obj:   $(CTDL) $S\library.h $S\LIBALIAS.C
+    ztc $(CSPACE) $S\$(@B).c
+LIBARCH.obj:    $(CTDL) $S\library.h $S\LIBARCH.C
+    ztc $(CSPACE) $S\$(@B).c
+LIBCRYP.obj:    $(CTDL) $S\library.h $S\LIBCRYP.C
+    ztc $(CSPEED) $S\$(@B).c
+LIBDATA.obj:    $(CTDL) $S\LIBDATA.C
+    ztc $(CSPACE) $S\$(@B).c
+LIBDEP.obj:     $(CTDL) $S\library.h $I\clock.h $S\LIBDEP.C
+    ztc $(CSPACE) $S\$(@B).c
+LIBFLOOR.obj:   $(CTDL) $(EX) $S\LIBFLOOR.C
+    ztc $(CSPACE) $S\$(@B).c
+LIBLOG.obj:     $(CTDL) $(EX) $S\LIBLOG.C
+    ztc $(CSPACE) $S\$(@B).c
+LIBMISC.obj:    $(CTDL) $(EX) $I\clock.h $S\LIBMISC.C
+    ztc $(CSPACE) $S\$(@B).c
+LIBMODEM.obj:   $(CTDL) $S\library.h $S\LIBMODEM.C
+    ztc $(CSPACE) $S\$(@B).c
+LIBNET.obj:     $(CTDL) $(EX) $I\ctdlnet.h $S\LIBNET.C
+    ztc $(CSPACE) $S\$(@B).c
+LIBOUT.obj:     $(CTDL) $(EX) $I\protocol.h $S\LIBOUT.C
+    ztc $(CSPACE) $S\$(@B).c
+LIBROOM.obj:    $(CTDL) $(EX) $S\LIBROOM.C
+    ztc $(CSPACE) $S\$(@B).c
+LIBROUTE.obj:   $(CTDL) $(EX) $I\ctdlnet.h $S\LIBROUTE.C
+    ztc $(CSPACE) $S\$(@B).c
+LIBTABL.obj:    $(CTDL) $(EX) $I\ctdlnet.h $I\event.h $I\poll.h $I\zaploop.h $S\LIBTABL.C
+    ztc $(CSPACE) $S\$(@B).c
+LIBTAG.obj:     $(CTDL) $(EX) $S\LIBTAG.C
+    ztc $(CSPACE) $S\$(@B).c
+LIBTIMER.obj:   $(CTDL) $S\library.h $I\clock.h $S\LIBTIMER.C
+    ztc $(CSPACE) $S\$(@B).c
+LOG.obj:        $(CTDL) $I\event.h $I\audit.h $I\clock.h $(EX) $S\LOG.C
+MISC.obj:       $(CTDL) $I\dirlist.h $I\clock.h $I\audit.h $I\event.h $I\protocol.h $I\dateread.h $(EX) $S\MISC.C
+MODEM.obj:      $(CTDL) $I\event.h $I\audit.h $I\protocol.h $(EX) $S\MODEM.C
+MSG.obj:        $(CTDL) $(EX) $I\ctdlnet.h $I\msg.h $I\protocol.h $I\dateread.h $S\MSG.C
+    ztc $(CFLAGS) $S\msg.c
+NETCALL.obj:    $(CTDL) $(EX) $I\ctdlnet.h $I\dirlist.h $I\protocol.h $S\NETCALL.C
+    ztc $(CSPACE) $S\$(@B).c
+NETERROR.obj:   $(CTDL) $(EX) $S\NETERROR.C
+    ztc $(CSPACE) $S\$(@B).c
+NETMAIN.obj:    $(CTDL) $I\ctdlnet.h $I\clock.h $I\event.h $I\protocol.h $I\poll.h $(EX) $S\NETMAIN.C
+    ztc $(CSPACE) $S\$(@B).c
+NETMISC.obj:    $(CTDL) $(EX) $I\ctdlnet.h $I\event.h $I\dirlist.h $S\NETMISC.C
+    ztc $(CFLAGS) $S\$(@B).c
+NETRCV.obj:     $(CTDL) $(EX) $I\ctdlnet.h $I\dirlist.h $I\protocol.h $S\NETRCV.C
+    ztc $(CSPACE) $S\$(@B).c
+NFS.obj:        $(CTDL) $I\ctdlnet.h $I\dirlist.h $S\NFS.C
+POSTMSG.obj:    $(CTDL) $I\ctdlnet.h $I\protocol.h $I\msg.h $(EX) $S\POSTMSG.C
+    ztc $(CFLAGS) $S\$(@B).c
+PRIVATE.obj:    $(CTDL) $I\protocol.h $(EX) $S\PRIVATE.C
+ROOMA.obj:      $(CTDL) $I\clock.h $I\dirlist.h $I\protocol.h $(EX) $S\ROOMA.C
+    ztc $(CSPACE) $S\$(@B).c
+ROOMB.obj:      $(CTDL) $(EX) $I\ctdlnet.h $I\protocol.h $S\ROOMB.C
+    ztc $(CSPACE) $S\$(@B).c
+ROOMEDIT.obj:   $(CTDL) $I\ctdlnet.h $S\ROOMEDIT.C
+ROUTING.obj:    $(CTDL) $I\ctdlnet.h $S\ROUTING.C
+SCANDIR.obj:    $(CTDL) $I\dirlist.h $I\clock.h $I\dateread.h $S\SCANDIR.C
+SYSDEP.obj:     $(CTDL) $(EX) $I\ctdlnet.h $I\clock.h $I\audit.h $I\mach_dep.h $S\SYSDEP.C
+    ztc $(CFLAGS) $S\$(@B).c
+SYSOP.obj:      $(CTDL) $I\event.h $I\audit.h $I\protocol.h $I\door.h $I\poll.h $(EX) $S\SYSOP.C
+VERSION.obj:    $S\VERSION.C
+XYMODEM.obj:    $(CTDL) $I\dirlist.h $I\audit.h $I\protocol.h $S\XYMODEM.C
+    ztc $(CSPEED) $S\$(@B).c
+ZAPLOOP.obj:    $(CTDL) $I\zaploop.h $(EX) $S\ZAPLOOP.C

@@ -1,0 +1,6 @@
+/NOI /PAC /F /MAP +
+cfg cfgmisc cfgscan cfgzap libarch libdata +
+libcryp liblog hash version libfloor libroom +
+libtabl libnet libdep crashout open putch
+configur.exe
+configur.map;
